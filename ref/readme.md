@@ -1,0 +1,6 @@
+- /plot
+  - 시리얼 데이터 플로팅하기 위한 라이브러리들
+  - /RealtimePlotter
+    - https://github.com/sebnil/RealtimePlotter
+  - /serial-plot-processing-master
+    - https://github.com/ussserrr/serial-plot-processing
