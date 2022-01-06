@@ -4,3 +4,6 @@
     - https://github.com/sebnil/RealtimePlotter
   - /serial-plot-processing-master
     - https://github.com/ussserrr/serial-plot-processing
+- /minimu
+  - MinIMU 센서 데이터 읽는 아두이노 코드
+    - https://github.com/pololu/minimu-9-ahrs-arduino
