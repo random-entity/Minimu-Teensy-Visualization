@@ -1,54 +1,6 @@
-/*
-
-MinIMU-9-Arduino-AHRS
-Pololu MinIMU-9 + Arduino AHRS (Attitude and Heading Reference System)
-
-Copyright (c) 2011-2016 Pololu Corporation.
-http://www.pololu.com/
-
-MinIMU-9-Arduino-AHRS is based on sf9domahrs by Doug Weibel and Jose Julio:
-http://code.google.com/p/sf9domahrs/
-
-sf9domahrs is based on ArduIMU v1.5 by Jordi Munoz and William Premerlani, Jose
-Julio and Doug Weibel:
-http://code.google.com/p/ardu-imu/
-
-MinIMU-9-Arduino-AHRS is free software: you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as published by the
-Free Software Foundation, either version 3 of the License, or (at your option)
-any later version.
-
-MinIMU-9-Arduino-AHRS is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for
-more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with MinIMU-9-Arduino-AHRS. If not, see <http://www.gnu.org/licenses/>.
-
-*/
-
-// Uncomment the following line to use a MinIMU-9 v5 or AltIMU-10 v5. Leave commented for older IMUs (up through v4).
 #define IMU_V5
 
-// Uncomment the below line to use this axis definition:
-// X axis pointing forward
-// Y axis pointing to the right
-// and Z axis pointing down.
-// Positive pitch : nose up
-// Positive roll : right wing down
-// Positive yaw : clockwise
-int SENSOR_SIGN[9] = {1, 1, 1, -1, -1, -1, 1, 1, 1}; //Correct directions x,y,z - gyro, accelerometer, magnetometer
-// Uncomment the below line to use this axis definition:
-// X axis pointing forward
-// Y axis pointing to the left
-// and Z axis pointing up.
-// Positive pitch : nose down
-// Positive roll : right wing down
-// Positive yaw : counterclockwise
-//int SENSOR_SIGN[9] = {1,-1,-1,-1,1,1,1,-1,-1}; //Correct directions x,y,z - gyro, accelerometer, magnetometer
-
-// tested with Arduino Uno with ATmega328 and Arduino Duemilanove with ATMega168
+int SENSOR_SIGN[9] = {1, 1, 1, -1, -1, -1, 1, 1, 1}; //Correct
 
 #include <Wire.h>
 
@@ -134,12 +86,9 @@ float errorYaw[3] = {0, 0, 0};
 unsigned int counter = 0;
 byte gyro_sat = 0;
 
-float DCM_Matrix[3][3] = {
-    {1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+float DCM_Matrix[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 float Update_Matrix[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}; //Gyros here
-
-float Temporary_Matrix[3][3] = {
-    {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+float Temporary_Matrix[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
 void setup()
 {
@@ -202,7 +151,7 @@ void loop() //Main Loop
       G_Dt = 0;
 
     // *** DCM algorithm
-    // Data adquisition
+    // Data acquisition
     Read_Gyro();  // This read gyro data
     Read_Accel(); // Read I2C accelerometer
 
