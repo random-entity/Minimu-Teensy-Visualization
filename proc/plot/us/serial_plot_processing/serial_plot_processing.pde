@@ -53,13 +53,9 @@ private int skipNFirstPointsCnt = 0;
  */
 private ControlP5 cp5;
 
-
-
 public void settings() {
   size(plotWidth * nChannels, plotHeight + pauseBtnHeight);
 }
-
-
 
 public void setup() {
   for (int i = 0; i < channels.length; i++) {
@@ -91,16 +87,12 @@ public void setup() {
   timer = millis();
 }
 
-
-
 public void draw() {
-  
   if(millis() - timer >= callInterval) {
     timer = millis();
     ser.write('A');
   }
-  
-  
+
   currentTime = System.nanoTime();
 
   // Benchmark - how many points in 1 second
@@ -116,9 +108,8 @@ public void draw() {
       System.out.printf("A: %4d\tB: %4d\n", channels[0].get(0), channels[1].get(0));
     }
   } else {
-
     /*
-             *  No need to redraw during the pause. But we continue to stamp points in the background
+     *  No need to redraw during the pause. But we continue to stamp points in the background
      *  to provide an instant resuming
      */
     if (!isPaused) {
@@ -137,7 +128,7 @@ public void draw() {
     }
 
     /*
-             *  Append all points accumulated between 2 consecutive screen updates (see 'serialEvent' note).
+     *  Append all points accumulated between 2 consecutive screen updates (see 'serialEvent' note).
      *  Instead of putting all these accumulated points at the one x-tick we evenly scatter them
      *  a little bit with a 'scatterCoef' to avoid gaps between points.
      */
@@ -164,8 +155,6 @@ public void draw() {
   }
 }
 
-
-
 /*
  *  We use this separate event to read bytes from the serial port. 'currentBuffer' is used to store raw
  *  bytes and 'byteBuffer' to convert them into 2 4-byte integers (little endian format). As 'serialEvent'
@@ -190,8 +179,6 @@ public void serialEvent(Serial s) {
     }
   }
 }
-
-
 
 /*
  *  Our button automatically binds itself to the function with matching name

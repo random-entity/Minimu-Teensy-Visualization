@@ -95,7 +95,10 @@ byte gyro_sat = 0;
 float DCM_Matrix[3][3] = {
   {1, 0, 0}, {0, 1, 0}, {0, 0, 1}
 };
-float Update_Matrix[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}; //Gyros here
+
+float Update_Matrix[3][3] = {
+  {0, 1, 2}, {3, 4, 5}, {6, 7, 8}
+}; //Gyros here
 
 float Temporary_Matrix[3][3] = {
   {0, 0, 0}, {0, 0, 0}, {0, 0, 0}
@@ -103,7 +106,6 @@ float Temporary_Matrix[3][3] = {
 
 ///////////////////////////////////////////////////////// End of IMU
 
-byte s_data[LEN_DATA];
 byte s_data_2byte[14][2];
 
 void setup()
@@ -146,21 +148,15 @@ void setup()
 
   AN_OFFSET[5] -= GRAVITY * SENSOR_SIGN[5];
 
-//  Serial.println("Offset:");
-//  for (int y = 0; y < 6; y++) {
-//    Serial.println(AN_OFFSET[y]);
-//  }
+  //  Serial.println("Offset:");
+  //  for (int y = 0; y < 6; y++) {
+  //    Serial.println(AN_OFFSET[y]);
+  //  }
 
   delay(2000);
 
   timer = millis();
   delay(20);
-
-//  for (int i = 0; i < LEN_DATA; i++)
-//  {
-//    s_data[i] = 0;
-//  }
-//  s_data[0] = 255;
 }
 
 void loop()
@@ -204,7 +200,7 @@ void sendSerialData()
 
   for (int i = 1; i <= 12; i++) {
     for (int j = 0; j <= 1; j++) {
-      check_sum += s_data_2byte[i][j];
+      check_sum += TwoBytesToShort(s_data_2byte[i]); // s_data_2byte[i][j];
     }
   }
 
