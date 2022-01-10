@@ -83,12 +83,12 @@ public void setup() {
 
   startTime = System.nanoTime();
   currentTimePrev = startTime;
-  
+
   timer = millis();
 }
 
 public void draw() {
-  if(millis() - timer >= callInterval) {
+  if (millis() - timer >= callInterval) {
     timer = millis();
     ser.write('A');
   }
@@ -132,6 +132,7 @@ public void draw() {
      *  Instead of putting all these accumulated points at the one x-tick we evenly scatter them
      *  a little bit with a 'scatterCoef' to avoid gaps between points.
      */
+
     for (int i = 0; i < channels[0].size(); i++, pointsCnt++) {
       for (int j = 0; j < plots.length; j++) {
         plots[j].addPoint((currentTimePrev
@@ -146,6 +147,7 @@ public void draw() {
         }
       }
     }
+
     currentTimePrev = currentTime;
   }
 
@@ -168,13 +170,13 @@ public void draw() {
 public void serialEvent(Serial s) {
   s.readBytes(currentBuffer);
   byteBuffer = ByteBuffer.wrap(currentBuffer).order(ByteOrder.BIG_ENDIAN);
-  
+
   int channelNumber = 0;
   for (List<Short> channel : channels) {
     channel.add(byteBuffer.getShort());
-    
+
     println("channel " + (channelNumber++));
-    for(short data : channel) {
+    for (short data : channel) {
       println(data);
     }
   }
