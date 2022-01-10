@@ -11,13 +11,13 @@ import controlP5.*;
 
 Serial ser;
 
-int timer;
+long timer;
 int callInterval = 100;
 
 private final int nChannels = 14;  // also number of plots
 private final int intSize = 2;  // bytes
 
-private final int plotWidth = 450;
+private final int plotWidth = 800;
 private final int plotHeight = 300;
 
 private final int pauseBtnWidth = plotWidth * nChannels;
@@ -54,10 +54,11 @@ private int skipNFirstPointsCnt = 0;
 private ControlP5 cp5;
 
 public void settings() {
-  size(plotWidth * nChannels, plotHeight + pauseBtnHeight);
+  size(plotWidth * 2, plotHeight * 2 + pauseBtnHeight);
 }
 
 public void setup() {
+  println(frameRate);
   for (int i = 0; i < channels.length; i++) {
     channels[i] = new ArrayList();
   }
