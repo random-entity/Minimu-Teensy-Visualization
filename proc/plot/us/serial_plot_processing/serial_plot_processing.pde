@@ -33,7 +33,7 @@ private ByteBuffer byteBuffer;
 private final int nPoints = 250;  // num of points in each plot (generally affects resolution and speed)
 private int pointsCnt = 0;  // count each new point
 private final float scatterCoef = 5.0f;
-private final GPlot[] plots = new GPlot[nChannels];
+private final GPlot[] plots = new GPlot[4];
 private boolean isPaused = false;
 
 // For x-ticks
@@ -147,6 +147,8 @@ public void draw() {
         }
       }
     }
+    
+    //addPoint(1, 0);
 
     currentTimePrev = currentTime;
   }
