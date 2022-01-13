@@ -19,10 +19,10 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 
 ## 개발 환경 | Development Environment
 
-- 서울오픈미디어에서 개발한 GLPS 헤드폰 3세대에서 테스트 되었습니다.
+- 서울오픈미디어에서 개발한 GLPS 헤드폰 (3세대)에서 테스트 되었습니다.
 - 사용되는 프로세서와 센서는 다음과 같습니다.
 
-- We are working with Seoul Open Media's GLPS Headphones 3rd Generation
+- We are working with Seoul Open Media's GLPS Headphones (3rd Generation)
 - The processors and sensors used are:
 
   - SparkFun MicroMod Teensy 
@@ -34,4 +34,8 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 - The MinIMU and the MicroMod Teensy are communicating by I2C.
 
 ## 사용법 | How to use
-- /tdino/headphone-minimu.ino를 열어 
+- /tdino/headphone-minimu.ino를 Teensyduino로 열어 Teensy로 업로드합니다.
+- /proc/serial_data_plotting/serial_data_plotting.pde를 Processing IDE로 열어 실행시킵니다.
+
+- Open /tdino/headphone-minimu.ino with Teensyduino and upload to Teesy.
+- Open /proc/serial_data_plotting/serial_data_plotting.pde with Processing IDE and run.
