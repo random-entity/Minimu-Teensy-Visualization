@@ -1,6 +1,6 @@
 class PlotXYZ {
   GPlot plot;
-  static final int nPoints = 200;
+  static final int nPoints = 100;
   int pointCount = 0;
 
   PlotXYZ(PApplet p, int row, int col, float yLowerLimit, float yUpperLimit) {
@@ -42,8 +42,9 @@ class PlotXYZ {
     getLayer(1).addPoint(t, y);
     getLayer(2).addPoint(t, z);
     plot.updateLimits();
-    pointCount++;
     
+    pointCount++;
+
     cutPoints();
   }
 
@@ -56,15 +57,19 @@ class PlotXYZ {
 
   void cutPoints() {
     if (pointCount > nPoints) {
-      for (int i = 0; i < 3; i++) {
-        for (int r = 0; r < pointCount - nPoints; r++) {
-          removeFirstPoint();
-        }
+      for (int r = 0; r < pointCount - nPoints; r++) {
+        removeFirstPoint();
       }
     }
   }
 
   void defaultDraw() {
-    plot.defaultDraw();
+    try {
+      plot.defaultDraw();
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+      noLoop();
+    }
   }
 }

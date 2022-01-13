@@ -8,27 +8,25 @@ void initSerial() {
   printArray(Serial.list());
   printArray("selected port number " + portNumber);
   String portName = Serial.list()[portNumber];
-  printArray("port name : " + portName);
+  println("port name : " + portName);
 
   ser = new Serial(this, portName, baudRate);
   ser.buffer(nChannels * intSize);
 }
 
-void readSerial(Serial s) {
+void serialToChannels(Serial s) {
+  println("serialToChannels() :");
+  println("reading bytes...");
   s.readBytes(currentBuffer);
+  println("decoding...");
   byteBuffer = ByteBuffer.wrap(currentBuffer).order(ByteOrder.BIG_ENDIAN);
-
-  int channelNumber = 0;
-  for (List<Short> channel : channels) {
-    channel.add(byteBuffer.getShort());
-
-    println("channel " + (channelNumber++));
-    for (short data : channel) {
-      println(data);
-    }
+  for (int i = 0; i < channels.length; i++) {
+    channels[i].add(byteBuffer.getShort());
   }
+  println("END serialToChannels()");
 }
 
 void serialEvent(Serial s) {
-  readSerial(s);
+  println("serial event : time = " + getStepTimeInSec() + " (sec)");
+  serialToChannels(s);
 }

@@ -12,9 +12,6 @@ void setup() {
   initChannels();
   initPlots();
   initSerial();
-
-  addTestPointsStatic();
-
   initTimers();
 }
 
@@ -22,8 +19,11 @@ void draw() {
   if (System.nanoTime() - stepTime >= callInterval) {
     stepTimePrev = stepTime;
     stepTime = System.nanoTime();
-    //ser.write('A');
+
+    ser.write('A');
+    //addTestPointsDynamic();
   }
-  addTestPointsDynamic();
+
+  channelsToPlot();
   drawPlots();
 }
