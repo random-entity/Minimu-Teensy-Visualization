@@ -106,9 +106,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
   - ```
     void draw() {
       if (System.nanoTime() - stepTime >= callInterval) {
-        stepTimePrev = stepTime;
         stepTime = System.nanoTime();
-
         ser.write('A');
       }
 
