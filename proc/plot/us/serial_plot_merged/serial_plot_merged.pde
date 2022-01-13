@@ -13,7 +13,7 @@ void setup() {
   initPlots();
   initSerial();
 
-  //addTestPointsStatic();
+  addTestPointsStatic();
 
   initTimers();
 }
@@ -23,7 +23,7 @@ void draw() {
     stepTimePrev = stepTime;
     stepTime = System.nanoTime();
     //ser.write('A');
-    addTestPointsDynamic();
   }
+  addTestPointsDynamic();
   drawPlots();
 }

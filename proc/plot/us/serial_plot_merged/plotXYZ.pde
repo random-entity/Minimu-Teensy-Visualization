@@ -1,11 +1,13 @@
-class plotXYZ {
+class PlotXYZ {
   GPlot plot;
+  static final int nPoints = 200;
+  int pointCount = 0;
 
-  plotXYZ(PApplet p, int row, int col) {
+  PlotXYZ(PApplet p, int row, int col, float yLowerLimit, float yUpperLimit) {
     plot = new GPlot(p);
 
     plot.setPos(row * plotWidth, col * plotHeight);
-    plot.setYLim(-200, 200);
+    plot.setYLim(yLowerLimit, yUpperLimit);
     plot.setPointSize(1f);
 
     plot.addLayer("x", new GPointsArray());
@@ -33,5 +35,36 @@ class plotXYZ {
       println("plotXYZ.getLayer() : wrong axis index.");
       return null;
     }
+  }
+
+  void addPoints(float t, float x, float y, float z) {
+    getLayer(0).addPoint(t, x);
+    getLayer(1).addPoint(t, y);
+    getLayer(2).addPoint(t, z);
+    plot.updateLimits();
+    pointCount++;
+    
+    cutPoints();
+  }
+
+  void removeFirstPoint() {
+    for (int i = 0; i < 3; i++) {
+      getLayer(i).removePoint(0);
+    }
+    pointCount--;
+  }
+
+  void cutPoints() {
+    if (pointCount > nPoints) {
+      for (int i = 0; i < 3; i++) {
+        for (int r = 0; r < pointCount - nPoints; r++) {
+          removeFirstPoint();
+        }
+      }
+    }
+  }
+
+  void defaultDraw() {
+    plot.defaultDraw();
   }
 }
