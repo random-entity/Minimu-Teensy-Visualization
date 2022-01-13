@@ -1,27 +1,17 @@
-## 개요 | Introduction
-서울오픈미디어에서 개발하는 MinIMU 센서와 MicroMod Teensy 마이크로프로세서 등이 임베디드된 GLPS 헤드폰의 MinIMU 센서 데이터를 PC 디스플레이 상에서 시각화할 수 있도록 하기 위한 Teensyduino와 Processing 코드들입니다.
-
+## Introduction
 This repo contains Teensyduino and Processing codes which serve the purpose of visualizing on PC monitor the sensor data captured by a MinIMU sensor embedded in custom made GLPS headphones that have been developed by Seoul Open Media. Embedded on the headphones other than the MinIMU are the MicroMod Teensy microprocessor, LPS module and more.
 
-## 폴더 구조 | Directories
+## Directories
 - /libs
-  - Teensy에 필요한 외부 라이브러리들 (수정 있음) 백업
   - The backup of (modified) external libraries used for the Teensy
 - /teensy
-  - Teensyduino 코드, 센서 데이터를 시리얼로 출력하기 위한
   - Teensyduino codes, for writing sensor data on serial
 - /proc
-  - 프로세싱 코드, 시리얼에서 읽어온 센서 데이터 시각화를 위한
   - Processing codes, for visualizing sensor data read from serial
 - /ref
-  - 참고자료 & 퍼온 라이브러리 원본 .zip 등
   - References & external libraries' backup .zip files
 
-## 개발 환경 | Development Environment
-
-- 서울오픈미디어에서 개발한 GLPS 헤드폰 (3세대)에서 테스트 되었습니다.
-- 사용되는 프로세서와 센서는 다음과 같습니다.
-
+## Development Environment
 - We are working with Seoul Open Media's GLPS Headphones (3rd Generation)
 - The processors and sensors used are:
 
@@ -30,21 +20,69 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
   - Pololu MinIMU-9 MinIMU-9 v5 Gyro, Accelerometer, and Compass (LSM6DS33 and LIS3MDL Carrier)
     - [Pololu](https://www.pololu.com/product/2738)
 
-- MinIMU 센서와 MicroMod Teensy는 I2C 방식으로 연결되어 소통하고 있습니다.
 - The MinIMU and the MicroMod Teensy are communicating by I2C.
 
-## 사용법 | How to use
-
-- /libs 안에 있는 라이브러리들을 아두이노 라이브러리 폴더에 복사해야 합니다.
-- /teensy/headphone-minimu.ino를 Teensyduino로 열어 Teensy로 업로드합니다.
-- Processing의 grafica 라이브러리가 설치되어 있지 않다면 설치합니다. 
-  - Processing IDE 내에서 할 수 있습니다.
-    - 스케치 > 내부 라이브러리 > 라이브러리 추가하기 > grafica 검색
-- /proc/minimu_data_plotter/minimu_data_plotter.pde를 Processing IDE로 열어 실행시킵니다.
-
+## How to use
 - Copy the contents of /libs to your Arduino Library folder.
 - Open /teensy/headphone-minimu.ino with Teensyduino and upload to Teesy.
 - On the Processing side you need the "grafica" library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
 - Open /proc/minimu_data_plotter/minimu_data_plotter.pde with the Processing IDE and run.
+
+## How it works
+- In /teensy/headphone-minimu.ino we can see:
+```
+void sendSerialData()
+{
+  s_data_2byte[0][0] = 0x7F;
+  s_data_2byte[0][1] = 0xFF;
+
+  ShortTo2Bytes(gyro_x, s_data_2byte[1]);
+  ShortTo2Bytes(gyro_y, s_data_2byte[2]);
+  ShortTo2Bytes(gyro_z, s_data_2byte[3]);
+
+  ShortTo2Bytes(accel_x, s_data_2byte[4]);
+  ShortTo2Bytes(accel_y, s_data_2byte[5]);
+  ShortTo2Bytes(accel_z, s_data_2byte[6]);
+
+  ShortTo2Bytes(AN[0], s_data_2byte[7]);
+  ShortTo2Bytes(AN[1], s_data_2byte[8]);
+  ShortTo2Bytes(AN[2], s_data_2byte[9]);
+  ShortTo2Bytes(AN[3], s_data_2byte[10]);
+  ShortTo2Bytes(AN[4], s_data_2byte[11]);
+  ShortTo2Bytes(AN[5], s_data_2byte[12]);
+
+  short check_sum = 0;
+
+  for (int i = 1; i <= 12; i++) {
+    check_sum += TwoBytesToShort(s_data_2byte[i]);
+  }
+
+  ShortTo2Bytes(check_sum, s_data_2byte[13]);
+
+  for (int i = 0; i < 14; i++)
+  {
+    Serial.write(s_data_2byte[i], 2);
+  }
+}
+```
+- This is the function that encodes and writes data to the serial port.
+  - ```s_data_2byte``` is a two-dimensional array of type ```byte```
+    - ```byte s_data_2byte[14][2];``` (line 109)
+  - for each ```i = 0 ~ 13```, ```s_data_2byte[i]``` is a ```byte``` array of length 2.
+  - ```Serial.write(s_data_2byte[i], 2);``` (line 209) writes the two ```byte``` elements of ```s_data_2byte[i]``` to the serial port.
+
+- What are the elements of ```s_data_2byte[i]```?
+  - Refer to the ```ShortTo2Bytes``` function in /teensy/conversions.ino
+  - ```
+    void ShortTo2Bytes(short n, byte *arr)
+    {
+        *arr = (n >> 8) & 0xFF;
+        *(arr + 1) = n & 0xFF;
+    }
+    ```
+    - ```ShortTo2Bytes(short n, byte *arr)``` breaks ```short n``` to two pieces of ```byte``` and assigns those bytes to the two elements of ```arr```.
+    - ```arr[0]``` is set to the higher binary decimals (```n >> 8```),
+    - and ```arr[1]``` is set to the lower binary decimals (```n & 0xFF```)
+      - The order is important, because we need to know when decoding how the data was encoded.
