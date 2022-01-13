@@ -2,13 +2,13 @@
 This repo contains Teensyduino and Processing codes which serve the purpose of visualizing on PC monitor the sensor data captured by a MinIMU sensor embedded in custom made GLPS headphones that have been developed by Seoul Open Media. Embedded on the headphones other than the MinIMU are the MicroMod Teensy microprocessor, LPS module and more.
 
 ## Directories
-- /libs
+- ```/libs```
   - The backup of (modified) external libraries used for the Teensy
-- /teensy
+- ```/teensy```
   - Teensyduino codes, for writing sensor data on serial
-- /proc
+- ```/proc```
   - Processing codes, for visualizing sensor data read from serial
-- /ref
+- ```/ref```
   - References & external libraries' backup .zip files
 
 ## Development Environment
@@ -23,15 +23,16 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 - The MinIMU and the MicroMod Teensy are communicating by I2C.
 
 ## How to use
-- Copy the contents of /libs to your Arduino Library folder.
-- Open /teensy/headphone-minimu.ino with Teensyduino and upload to Teesy.
+- Copy the contents of ```/libs``` to your Arduino Library folder.
+- Open ```/teensy/headphone-minimu.ino``` with Teensyduino and upload to Teesy.
 - On the Processing side you need the "grafica" library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
-- Open /proc/minimu_data_plotter/minimu_data_plotter.pde with the Processing IDE and run.
+- Open ```/proc/minimu_data_plotter/minimu_data_plotter.pde``` with the Processing IDE and run.
 
 ## How it works
-- In /teensy/headphone-minimu.ino we can see:
+### On the Teensy side
+- In ```/teensy/headphone-minimu.ino``` we can see:
 ```
 void sendSerialData()
 {
@@ -68,13 +69,14 @@ void sendSerialData()
 }
 ```
 - This is the function that encodes and writes data to the serial port.
+- This function is called whenever Teensy reads an ```'A'``` on its serial input.
   - ```s_data_2byte``` is a two-dimensional array of type ```byte```
     - ```byte s_data_2byte[14][2];``` (line 109)
   - for each ```i = 0 ~ 13```, ```s_data_2byte[i]``` is a ```byte``` array of length 2.
   - ```Serial.write(s_data_2byte[i], 2);``` (line 209) writes the two ```byte``` elements of ```s_data_2byte[i]``` to the serial port.
 
 - What are the elements of ```s_data_2byte[i]```?
-  - Refer to the ```ShortTo2Bytes``` function in /teensy/conversions.ino
+  - Refer to the ```ShortTo2Bytes``` function in ```/teensy/conversions.ino```
   - ```
     void ShortTo2Bytes(short n, byte *arr)
     {
@@ -86,3 +88,33 @@ void sendSerialData()
     - ```arr[0]``` is set to the higher binary decimals (```n >> 8```),
     - and ```arr[1]``` is set to the lower binary decimals (```n & 0xFF```)
       - The order is important, because we need to know when decoding how the data was encoded.
+  - We are encoding ```int```s 
+    - ```gyro_x```, ```gyro_y```, ```gyro_z``` 
+      - into ```s_data_2byte[0]```, ```s_data_2byte[1]```, ```s_data_2byte[2]```,
+    - ```accel_x```, ```accel_y```, ```accel_z``` 
+      - into ```s_data_2byte[3]```, ```s_data_2byte[4]```, ```s_data_2byte[5]```,
+    - ```AN[0 ~ 6]``` to ```s_data_2byte[6 ~ 12]```.
+  - The first and the last element of ```s_data_2byte``` are used to write a start signal and a check-sum signal, respectively.
+    - ```s_data_2byte[0]``` is ```{ 0x7F, 0xFF }```, which is the positive maximum ```short```.
+    - ```s_data_2byte[13]``` is the sum of ```TwoBytesToShort(s_data_2byte[1 ~ 12])``` which are the un-encoded value of ```s_data_2byte[1 ~ 12]``` (i.e. ```gyro_xyz```, ```accel_xyz```, ```AN[1~6]```), encoded to two bytes.
+- What are ```gyro_xyz```, ```accel_xyz```, and ```AN[1~6]```?
+  - These are the global variables values of which are set by ```getSensorData()```, which contains functions ```Read_Gyro()```, ```Read_Accel()```, ```Matrix_update()```, ```Normalize()```, ```Drift_correction()```, and ```Euler_angles()```, which came from the [pololu/minimu-9-ahrs-arduino public repository](https://github.com/pololu/minimu-9-ahrs-arduino/tree/master/MinIMU9AHRS).
+    - I do not know how these sensor-related functions work...
+
+### On the Processing side
+- In ```/proc/minimu_data_plotter/minimu_data_plotter.pde``` we have:
+```
+void serialEvent(Serial s) {
+  println("serial event : time = " + getStepTimeInSec() + " (sec)");
+  serialToChannels(s);
+}
+```
+```
+void serialToChannels(Serial s) {
+  s.readBytes(currentBuffer);
+  byteBuffer = ByteBuffer.wrap(currentBuffer).order(ByteOrder.BIG_ENDIAN);
+  for (int i = 0; i < channels.length; i++) {
+    channels[i].add(byteBuffer.getShort());
+  }
+}
+```
