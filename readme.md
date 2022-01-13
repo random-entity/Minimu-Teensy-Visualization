@@ -157,6 +157,8 @@ void serialToChannels(Serial s) {
     - It is used to plot three data (x, y, z axis) into one graph.
 
 ## Legend
-- Red line = x axis
-- Green line = y axis
-- Blue line = z axis
+| Plot  | 1      | 2       | 3     | 4     |
+| ----- | ------ | ------- | ----- | ----- |
+| Red   | gyro_x | accel_x | AN[0] | AN[3] |
+| Green | gyro_y | accel_y | AN[1] | AN[4] |
+| Blue  | gyro_z | accel_z | AN[2] | AN[5] |
