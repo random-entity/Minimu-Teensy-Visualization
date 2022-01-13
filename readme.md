@@ -7,7 +7,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 - /libs
   - Teensy에 필요한 외부 라이브러리들 (수정 있음) 백업
   - The backup of (modified) external libraries used for the Teensy
-- /tdino
+- /teensy
   - Teensyduino 코드, 센서 데이터를 시리얼로 출력하기 위한
   - Teensyduino codes, for writing sensor data on serial
 - /proc
@@ -36,14 +36,14 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 ## 사용법 | How to use
 
 - /libs 안에 있는 라이브러리들을 아두이노 라이브러리 폴더에 복사해야 합니다.
-- /tdino/headphone-minimu.ino를 Teensyduino로 열어 Teensy로 업로드합니다.
+- /teensy/headphone-minimu.ino를 Teensyduino로 열어 Teensy로 업로드합니다.
 - Processing의 grafica 라이브러리가 설치되어 있지 않다면 설치합니다. 
   - Processing IDE 내에서 할 수 있습니다.
     - 스케치 > 내부 라이브러리 > 라이브러리 추가하기 > grafica 검색
 - /proc/minimu_data_plotter/minimu_data_plotter.pde를 Processing IDE로 열어 실행시킵니다.
 
 - Copy the contents of /libs to your Arduino Library folder.
-- Open /tdino/headphone-minimu.ino with Teensyduino and upload to Teesy.
+- Open /teensy/headphone-minimu.ino with Teensyduino and upload to Teesy.
 - On the Processing side you need the "grafica" library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
