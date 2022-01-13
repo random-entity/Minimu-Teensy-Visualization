@@ -68,12 +68,12 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
       }
     }
     ```
-- This is the function that encodes and writes data to the serial port.
-- This function is called whenever Teensy reads an ```'A'``` on its serial input.
-  - ```s_data_2byte``` is a two-dimensional array of type ```byte```
-    - ```byte s_data_2byte[14][2];``` (line 109)
-  - for each ```i = 0 ~ 13```, ```s_data_2byte[i]``` is a ```byte``` array of length 2.
-  - ```Serial.write(s_data_2byte[i], 2);``` (line 209) writes the two ```byte``` elements of ```s_data_2byte[i]``` to the serial port.
+  - This is the function that encodes and writes data to the serial port.
+  - This function is called whenever Teensy reads an ```'A'``` on its serial input.
+    - ```s_data_2byte``` is a two-dimensional array of type ```byte```
+      - ```byte s_data_2byte[14][2];``` (line 109)
+    - for each ```i = 0 ~ 13```, ```s_data_2byte[i]``` is a ```byte``` array of length 2.
+    - ```Serial.write(s_data_2byte[i], 2);``` (line 209) writes the two ```byte``` elements of ```s_data_2byte[i]``` to the serial port.
 
 - What are the elements of ```s_data_2byte[i]```?
   - Refer to the ```ShortTo2Bytes``` function in ```/teensy/conversions.ino```
