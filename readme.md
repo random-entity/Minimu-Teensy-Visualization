@@ -25,7 +25,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 ## How to use
 - Copy the contents of ```/libs``` to your Arduino Library folder.
 - Open ```/teensy/headphone-minimu.ino``` with Teensyduino and upload to Teesy.
-- On the Processing side you need the "grafica" library.
+- On the Processing side you need the ```grafica``` library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
 - Open ```/proc/minimu_data_plotter/minimu_data_plotter.pde``` with the Processing IDE and run.
