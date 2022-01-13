@@ -199,9 +199,7 @@ void sendSerialData()
   short check_sum = 0;
 
   for (int i = 1; i <= 12; i++) {
-    for (int j = 0; j <= 1; j++) {
-      check_sum += TwoBytesToShort(s_data_2byte[i]); // s_data_2byte[i][j];
-    }
+    check_sum += TwoBytesToShort(s_data_2byte[i]);
   }
 
   ShortTo2Bytes(check_sum, s_data_2byte[13]);
