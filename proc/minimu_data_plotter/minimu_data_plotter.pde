@@ -18,7 +18,6 @@ void setup() {
 void draw() {
   if (System.nanoTime() - stepTime >= callInterval) {
     stepTime = System.nanoTime();
-
     ser.write('A');
   }
 
