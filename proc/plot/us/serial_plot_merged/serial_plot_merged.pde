@@ -5,7 +5,7 @@ import processing.serial.*;
 import grafica.*;
 
 void settings() {
-  size(plotWidth * 2, plotHeight * 2);
+  size(plotWidth * plotNRows, plotHeight * plotNCols);
 }
 
 void setup() {
@@ -21,7 +21,6 @@ void draw() {
     stepTime = System.nanoTime();
 
     ser.write('A');
-    //addTestPointsDynamic();
   }
 
   channelsToPlot();

@@ -2,6 +2,8 @@ Serial ser;
 final int portNumber = 2;
 final int baudRate = 57600;
 
+final short startSignal = 0x7FFF;
+
 void initSerial() {
   println("initSerial() : ");
   println("printArray(Serial.list()) : ");
@@ -15,15 +17,11 @@ void initSerial() {
 }
 
 void serialToChannels(Serial s) {
-  println("serialToChannels() :");
-  println("reading bytes...");
   s.readBytes(currentBuffer);
-  println("decoding...");
   byteBuffer = ByteBuffer.wrap(currentBuffer).order(ByteOrder.BIG_ENDIAN);
   for (int i = 0; i < channels.length; i++) {
     channels[i].add(byteBuffer.getShort());
   }
-  println("END serialToChannels()");
 }
 
 void serialEvent(Serial s) {

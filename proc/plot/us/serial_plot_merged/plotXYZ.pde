@@ -1,12 +1,11 @@
 class PlotXYZ {
   GPlot plot;
-  static final int nPoints = 100;
   int pointCount = 0;
 
   PlotXYZ(PApplet p, int row, int col, float yLowerLimit, float yUpperLimit) {
-    plot = new GPlot(p);
+    plot = new GPlot(p, row * plotWidth, col * plotHeight, plotWidth, plotHeight);
 
-    plot.setPos(row * plotWidth, col * plotHeight);
+    //plot.setPos();
     plot.setYLim(yLowerLimit, yUpperLimit);
     plot.setPointSize(1f);
 
