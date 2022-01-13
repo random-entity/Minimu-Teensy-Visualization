@@ -34,16 +34,17 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 - The MinIMU and the MicroMod Teensy are communicating by I2C.
 
 ## 사용법 | How to use
+
 - /libs 안에 있는 라이브러리들을 아두이노 라이브러리 폴더에 복사해야 합니다.
 - /tdino/headphone-minimu.ino를 Teensyduino로 열어 Teensy로 업로드합니다.
 - Processing의 grafica 라이브러리가 설치되어 있지 않다면 설치합니다. 
   - Processing IDE 내에서 할 수 있습니다.
     - 스케치 > 내부 라이브러리 > 라이브러리 추가하기 > grafica 검색
-- /proc/serial_data_plotting/serial_data_plotting.pde를 Processing IDE로 열어 실행시킵니다.
+- /proc/minimu_data_plotter/minimu_data_plotter.pde를 Processing IDE로 열어 실행시킵니다.
 
 - Copy the contents of /libs to your Arduino Library folder.
 - Open /tdino/headphone-minimu.ino with Teensyduino and upload to Teesy.
 - On the Processing side you need the "grafica" library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
-- Open /proc/serial_data_plotting/serial_data_plotting.pde with the Processing IDE and run.
+- Open /proc/minimu_data_plotter/minimu_data_plotter.pde with the Processing IDE and run.
