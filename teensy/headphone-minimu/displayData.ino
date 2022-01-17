@@ -3,7 +3,6 @@ void displayData01() {
   float bat_voltage;
   char report[80];
 
-
   display.clearDisplay();
   display.setCursor(0, 0);
   display.setTextSize(1);
