@@ -1,5 +1,5 @@
 ## Introduction
-This repo contains Teensyduino and Processing codes which serve the purpose of visualizing on PC monitor the sensor data captured by a MinIMU sensor embedded in custom made GLPS headphones that have been developed by Seoul Open Media. Embedded on the headphones other than the MinIMU are the MicroMod Teensy microprocessor, LPS module and more.
+This repository contains Teensyduino and Processing codes which serve the purpose of visualizing on PC monitor the sensor data captured by a MinIMU sensor embedded in custom made GLPS headphones that have been developed by Seoul Open Media. Embedded on the headphones other than the MinIMU are the MicroMod Teensy microprocessor, LPS module and more.
 
 ## Directories
 - ```/libs```
@@ -28,7 +28,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
 - On the Processing side you need the ```grafica``` library.
   - You can install it inside the Processing IDE.
     - Sketch > Import Library > Add Library > search "grafica"
-- Open ```/proc/minimu_data_plotter/minimu_data_plotter.pde``` with the Processing IDE and run.
+- Open ```/proc/minimu_teensy_data_plotter/minimu_teensy_data_plotter.pde``` with the Processing IDE and run.
 
 ## How it works
 ### On the Teensy side
@@ -102,7 +102,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
     - I do not know how these sensor-related functions work...
 
 ### On the Processing side
-- In ```/proc/minimu_data_plotter/minimu_data_plotter.pde``` we have:
+- In ```/proc/minimu_teensy_data_plotter/minimu_teensy_data_plotter.pde``` we have:
   - ```
     void draw() {
       if (System.nanoTime() - stepTime >= callInterval) {
@@ -115,7 +115,7 @@ This repo contains Teensyduino and Processing codes which serve the purpose of v
     ```
   - We write ```'A'``` to the serial every ```callInterval``` (which is set to ```1e8```) nanoseconds, which will cause Teensy to write to its serial the encoded sensor data.
 
-- In ```/proc/minimu_data_plotter/serial.pde``` we have:
+- In ```/proc/minimu_teensy_data_plotter/serial.pde``` we have:
 ```
 void serialEvent(Serial s) {
   // ...
